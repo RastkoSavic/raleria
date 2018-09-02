@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Album;
 
 class AlbumsController extends Controller
 {
 	public function index()
 	{
-		return view('albums.index');
+		// Get All Albums
+		$albums = Album::with('Photos')->get();
+		
+		return view('albums.index')->with('albums', $albums);
 	}
 
 	public function create()
@@ -39,8 +43,16 @@ class AlbumsController extends Controller
 		$path = $request->file('cover_image')->storeAs('public/album_covers', $filenameToStore);
 
 		// Create New Album
+		$album = new Album();
 
+		// Set fields
+		$album->name = $request->input('name');
+		$album->description = $request->input('description');
+		$album->cover_image = $filenameToStore;
 
-		return;
+		// Save Album
+		$album->save();
+
+		return redirect('/albums')->with('success', 'Album - ' . $album->name . ' Created');
 	}
 }

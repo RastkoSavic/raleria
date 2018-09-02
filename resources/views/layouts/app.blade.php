@@ -11,7 +11,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.css">
 </head>
 <body>
+	{{-- Topbar --}}
+	@include('includes.topbar')
+	<br>
+
 	<div class="grid-container">
+		@include('includes.messages')
 		@yield('content')
 	</div>
 </body>
